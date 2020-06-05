@@ -14,6 +14,21 @@
     width="180">
     </el-table-column>
     <el-table-column
+      label="Name"
+      width="180">
+      <!--  -->
+      <template slot-scope="scope">
+        <el-popover trigger="hover" placement="top">
+          <p>Name: {{ scope.row.name }}</p>
+          <img :src="scope.row.image_url" alt="product photo" style="width: 250px;">
+          <div slot="reference" class="name-wrapper">
+            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+          </div>
+        </el-popover>
+      </template>
+    </el-table-column>
+    <!--  -->
+    <el-table-column
     prop="name"
     label="Name"
     width="300">

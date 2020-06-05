@@ -65,7 +65,7 @@ export default {
     cancel () { this.$router.push({ path: '/' }) }
   },
   created () {
-    if (localStorage.access_token) { this.$router.push({ path: '/' }) }
+    if (localStorage.access_token) { this.$router.push({ path: '/' }) } // navguard
   }
 }
 </script>

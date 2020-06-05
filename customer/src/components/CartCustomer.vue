@@ -48,6 +48,12 @@
           size="small">
           Buy
         </el-button>
+        <el-button
+          @click.native.prevent="increment(scope.$index, getAllData)"
+          type="text"
+          size="small">
+          Cancel
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -74,6 +80,40 @@ export default {
           this.$store.commit('SET_CARTS', this.getAllData)
           this.getAll()
           this.success()
+        })
+        .catch(err => {
+          console.log(err)
+          this.warning('can\'t approve transaction')
+        })
+    },
+    increment (i, data) {
+      axios({
+        method: 'DELETE',
+        url: `https://mighty-hamlet-29943.herokuapp.com/carts/${data[i].id}`,
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(del => {
+          this.$store.commit('SET_CARTS', this.getAllData)
+          axios({
+            method: 'PUT',
+            url: `https://mighty-hamlet-29943.herokuapp.com/products/${data[i].Product.id}`,
+            headers: {
+              access_token: localStorage.access_token
+            },
+            data: {
+              stock: data[i].Product.stock += data[i].quantity
+            }
+          })
+            .then(update => {
+              this.getAll()
+            })
+            .catch(err => {
+              console.log(err)
+              console.clear()
+              this.warning('access rejected')
+            })
         })
         .catch(err => {
           console.log(err)
